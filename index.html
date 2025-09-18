@@ -131,38 +131,14 @@
       >
         <h1 class="text-xl font-bold text-center rounded-2xl">Cart</h1>
         <div class="divider"></div>
-        <div class="sticky top-0" id="cart-container">
+        <div class="grid grid-cols-1 gap-5" id="cart-container">
           <!-- sample cart  -->
-
-          <div class="p-1 bg-white flex gap-3 shadow rounded-xl relative">
-            <div class="img">
-              <img
-                src="https://www.themealdb.com/images/media/meals/1520081754.jpg"
-                alt=""
-                class="w-[50px] rounded-xl h-[50px] object-cover"
-              />
-            </div>
-            <div class="flex-1">
-              <h1 class="text-xs font-bold">
-                Roast fennel and aubergine paella
-              </h1>
-
-              <div class="">
-                <h2 class="text-yellow-600 font-semibold">
-                  $ <span class="price">560</span> BDT
-                </h2>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 flex justify-center items-center bg-red-600 rounded-full absolute -top-1 -right-1 text-white cursor-pointer"
-            >
-              <i class="fa-solid fa-xmark"></i>
-            </div>
-          </div>
         </div>
 
         <div class="bg-[#FEBF00] mt-10">
-          <h2 class="p-3 text-white font-bold">Total $<span>560</span>BDT</h2>
+          <h2 class="p-3 text-white font-bold">
+            Total : ৳ <span id="cart-total">0</span> BDT
+          </h2>
         </div>
       </section>
     </main>

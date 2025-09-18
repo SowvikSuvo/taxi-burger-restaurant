@@ -39,6 +39,9 @@ const loadFoodDetails = (id) => {
     .then((data) => displayModal(data.details));
 };
 
+let cart = [];
+let total = 0;
+
 const displayCategory = (categories) => {
   //1 get the category container
   const catContainer = document.getElementById("category-container");
@@ -65,16 +68,17 @@ const displayFoods = (foods) => {
   foods.forEach((food) => {
     const foodCard = document.createElement("div");
     foodCard.innerHTML = `
-       <div onclick="loadFoodDetails(${food.id})" class="p-5 bg-white flex gap-4 shadow rounded-xl ">
+       <div  class="p-5 bg-white flex gap-4 shadow rounded-xl ">
             <div class="img flex-1">
               <img
                 src="${food.foodImg}"
                 alt=""
-                class="w-[160px] rounded-xl h-[160px] object-cover"
+                onclick="loadFoodDetails(${food.id})"
+                class="w-[160px] rounded-xl h-[160px] object-cover food-img"
               />
             </div>
             <div class="flex-2">
-              <h1 class="text-xl font-bold">
+              <h1 class="text-xl font-bold food-title">
                 ${food.title}
               </h1>
 
@@ -82,11 +86,11 @@ const displayFoods = (foods) => {
 
               <div class="divider divider-end">
                 <h2 class="text-yellow-600 font-semibold">
-                  $ <span class="price">${food.price}</span> BDT
+                  ৳ <span class="food-price">${food.price}</span> BDT
                 </h2>
               </div>
 
-              <button class="btn btn-warning">
+              <button onclick="addToCart(this)" class="btn btn-warning ">
                 <i class="fa-solid fa-square-plus"></i>
                 Add This Item
               </button>
@@ -107,13 +111,13 @@ const displayModal = (food) => {
 
   detailsContainer.innerHTML = `
             <div class="">
-            <h2 class="text-3xl font-bold">${food.title}</h2>
+            <h2 class="text-3xl font-bold ">${food.title}</h2>
 
           <div class="mx-auto">
             <img src="${food.foodImg}" alt="">
           </div>
           <div class="">
-            <h3 class="text-lg font-bold text-center hover:text-red-600"> Price: $ ${food.price} BDT</h3>
+            <h3 class="text-lg font-bold text-center hover:text-red-600"> Price: ৳ ${food.price} BDT</h3>
           </div>
           
           <div class="flex justify-between items-center">
@@ -132,3 +136,74 @@ const displayModal = (food) => {
 loadCategory();
 loadFoods(11);
 // loadRandomDat();
+
+const addToCart = (btn) => {
+  const card = btn.parentNode.parentNode;
+  const foodTitle = card.querySelector(".food-title").innerText;
+  const foodImg = card.querySelector(".food-img").src;
+  const foodPrice = card.querySelector(".food-price").innerText;
+  const foodPriceNum = Number(foodPrice);
+  // console.log(foodTitle, foodImg, foodPriceNum);
+
+  const selectedItem = {
+    foodTitle: foodTitle,
+    foodImg: foodImg,
+    foodPrice: foodPriceNum,
+  };
+  cart.push(selectedItem);
+  total = total + foodPriceNum;
+  displayCart(cart);
+  displayTotal(total);
+};
+
+const displayTotal = (val) => {
+  document.getElementById("cart-total").innerHTML = val;
+};
+const displayCart = (cart) => {
+  const cartContainer = document.getElementById("cart-container");
+  cartContainer.innerHTML = "";
+
+  for (let item of cart) {
+    const newItem = document.createElement("div");
+    newItem.innerHTML = `
+          <div class="p-1 bg-white flex gap-3 shadow  rounded-xl relative">
+            <div class="img">
+              <img
+                src="${item.foodImg}"
+                alt=""
+                class="w-[50px] rounded-xl h-[50px] object-cover"
+              />
+            </div>
+            <div class="flex-1">
+              <h1 class="text-xs font-bold food-title">
+                ${item.foodTitle}
+              </h1>
+
+              <div class="">
+                <h2 class="text-yellow-600 font-semibold">
+                  ৳ <span class="item-Price">${item.foodPrice}</span> BDT
+                </h2>
+              </div>
+            </div>
+            <div onclick="removeCart(this)"
+              class="w-6 h-6 flex justify-center items-center bg-red-600 rounded-full absolute -top-1 -right-1 text-white cursor-pointer"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </div>
+          </div>`;
+    cartContainer.append(newItem);
+  }
+};
+
+const removeCart = (btn) => {
+  const item = btn.parentNode;
+  const foodTitle = item.querySelector(".food-title").innerText;
+  const foodPrice = Number(item.querySelector(".item-Price").innerText);
+  console.log(foodPrice);
+
+  cart = cart.filter((item) => item.foodTitle != foodTitle);
+  total = 0;
+  cart.forEach((item) => (total += item.foodPrice));
+  displayCart(cart);
+  displayTotal(total);
+};
