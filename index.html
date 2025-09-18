@@ -78,7 +78,10 @@
         </h1>
         <div class="divider"></div>
         <!-- categories  -->
-        <div class="grid grid-cols-1 gap-3" id="category-container">
+        <div
+          class="grid grid-cols-1 gap-3 sticky top-0"
+          id="category-container"
+        >
           <button class="btn btn-block shadow btn-category">
             <img
               src="https://www.themealdb.com/images/category/beef.png"
@@ -143,7 +146,7 @@
       >
         <h1 class="text-xl font-bold text-center rounded-2xl">Cart</h1>
         <div class="divider"></div>
-        <div class="" id="cart-container">
+        <div class="sticky top-0" id="cart-container">
           <!-- sample cart  -->
 
           <div class="p-1 bg-white flex gap-3 shadow rounded-xl relative">
@@ -178,6 +181,23 @@
         </div>
       </section>
     </main>
+
+    <!-- You can open the modal using ID.showModal() method -->
+    <!-- <button class="btn" onclick="my_modal_3.showModal()">open modal</button> -->
+    <dialog id="my_modal_3" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
+        </form>
+        <div class="" id="details-container">
+          
+        </div>
+      </div>
+    </dialog>
 
     <script src="./Script/index.js"></script>
   </body>

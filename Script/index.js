@@ -11,6 +11,19 @@ const loadFoods = (id) => {
     .then((res) => res.json())
     .then((data) => displayFoods(data.foods));
 };
+const loadRandomData = () => {
+  const url = ` https://taxi-kitchen-api.vercel.app/api/v1/foods/random`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => displayFoods(data.foods));
+};
+
+const loadFoodDetails = (id) => {
+  const url = ` https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => displayModal(data.details));
+};
 
 const displayCategory = (categories) => {
   //1 get the category container
@@ -38,7 +51,7 @@ const displayFoods = (foods) => {
   foods.forEach((food) => {
     const foodCard = document.createElement("div");
     foodCard.innerHTML = `
-       <div class="p-5 bg-white flex gap-4 shadow rounded-xl ">
+       <div onclick="loadFoodDetails(${food.id})" class="p-5 bg-white flex gap-4 shadow rounded-xl ">
             <div class="img flex-1">
               <img
                 src="${food.foodImg}"
@@ -69,4 +82,33 @@ const displayFoods = (foods) => {
   });
 };
 
+const displayModal = (food) => {
+  const detailsContainer = document.getElementById("details-container");
+  detailsContainer.innerHTML = "";
+
+  detailsContainer.innerHTML = `
+            <div class="">
+            <h2 class="text-3xl font-bold">${food.title}</h2>
+
+          <div class="mx-auto">
+            <img src="${food.foodImg}" alt="">
+          </div>
+          <div class="">
+            <h3 class="text-lg font-bold text-center hover:text-red-600"> Price: $ ${food.price} BDT</h3>
+          </div>
+          
+          <div class="flex justify-between items-center">
+          <div class="badge badge-primary">
+                  ${food.area}
+             </div>
+             <div>
+                <h3 class="font-semibold">For Recipe</h3>
+                <a href="${food.video}" target="_blank" class="btn btn-warning"> watch Video</a>
+              </div>
+          </div>
+          `;
+  document.getElementById("my_modal_3").showModal();
+};
+
 loadCategory();
+loadRandomData();
