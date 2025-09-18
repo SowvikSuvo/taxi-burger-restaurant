@@ -6,7 +6,21 @@ const loadCategory = () => {
 };
 
 const loadFoods = (id) => {
-  const url = ` https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`;
+  // 1 - food container k hide korbo + loading k shoe korbo
+  document.getElementById("loading-spinner").classList.remove("hidden");
+  document.getElementById("food-container").classList.add("hidden");
+
+  const url = id
+    ? `https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`
+    : ` https://taxi-kitchen-api.vercel.app/api/v1/foods/random`;
+  // remove class
+  const catBtns = document.querySelectorAll(".btn-category");
+  catBtns.forEach((btn) => btn?.classList?.remove("active"));
+  // active class
+  const currentBtn = document.getElementById(`cat-btn-${id}`);
+  console.log(currentBtn);
+  currentBtn?.classList?.add("active");
+
   fetch(url)
     .then((res) => res.json())
     .then((data) => displayFoods(data.foods));
@@ -33,7 +47,7 @@ const displayCategory = (categories) => {
     //  create html element
     const categoryCard = document.createElement("div");
     categoryCard.innerHTML = `
-          <button onclick="loadFoods(${cat.id})" class="btn justify-start btn-block shadow btn-category ">
+          <button id="cat-btn-${cat.id}" onclick="loadFoods(${cat.id})" class="btn justify-start btn-block shadow btn-category ">
              <img
               src="${cat.categoryImg}"
               alt=""
@@ -80,8 +94,13 @@ const displayFoods = (foods) => {
           </div>`;
     foodContainer.append(foodCard);
   });
+
+  // 2 - food container k show korbo + loading k hide korbo
+  document.getElementById("loading-spinner").classList.add("hidden");
+  document.getElementById("food-container").classList.remove("hidden");
 };
 
+// Modal section //
 const displayModal = (food) => {
   const detailsContainer = document.getElementById("details-container");
   detailsContainer.innerHTML = "";
@@ -111,4 +130,5 @@ const displayModal = (food) => {
 };
 
 loadCategory();
-loadRandomData();
+loadFoods(11);
+// loadRandomDat();

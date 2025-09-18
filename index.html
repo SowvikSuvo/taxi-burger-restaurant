@@ -47,6 +47,10 @@
         background-position: center; /* center the image */
         background-attachment: fixed;
       }
+      .active {
+        background-color: black;
+        color: white;
+      }
     </style>
   </head>
   <body class="bg-art">
@@ -110,35 +114,16 @@
         <h1 class="text-xl font-bold text-center rounded-2xl">Our Foods</h1>
         <div class="divider"></div>
 
+        <!-- snipper -->
+        <div
+          id="loading-spinner"
+          class="min-h-[60vh] flex flex-col justify-center items-center bg-white hidden"
+        >
+          <span class="loading loading-dots loading-xl"></span>
+        </div>
+
         <div class="space-y-5" id="food-container">
           <!-- sample card  -->
-          <div class="p-5 bg-white flex shadow rounded-xl">
-            <div class="img flex-1">
-              <img
-                src="https://www.themealdb.com/images/media/meals/1520081754.jpg"
-                alt=""
-                class="w-[160px] rounded-xl h-[160px] object-cover"
-              />
-            </div>
-            <div class="flex-2">
-              <h1 class="text-xl font-bold">
-                Roast fennel and aubergine paella
-              </h1>
-
-              <div class="badge badge-warning">Vegan</div>
-
-              <div class="divider divider-end">
-                <h2 class="text-yellow-600 font-semibold">
-                  $ <span class="price">560</span> BDT
-                </h2>
-              </div>
-
-              <button class="btn btn-warning">
-                <i class="fa-solid fa-square-plus"></i>
-                Add This Item
-              </button>
-            </div>
-          </div>
         </div>
       </section>
       <section
@@ -193,9 +178,7 @@
             ✕
           </button>
         </form>
-        <div class="" id="details-container">
-          
-        </div>
+        <div class="" id="details-container"></div>
       </div>
     </dialog>
 
