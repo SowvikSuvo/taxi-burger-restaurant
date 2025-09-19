@@ -68,12 +68,12 @@ const displayFoods = (foods) => {
   foods.forEach((food) => {
     const foodCard = document.createElement("div");
     foodCard.innerHTML = `
-       <div  class="p-5 bg-white flex gap-4 shadow rounded-xl ">
+       <div onclick="loadFoodDetails(${food.id})"  class="p-5 bg-white flex gap-4 shadow rounded-xl ">
             <div class="img flex-1">
               <img
                 src="${food.foodImg}"
                 alt=""
-                onclick="loadFoodDetails(${food.id})"
+                
                 class="w-[160px] rounded-xl h-[160px] object-cover food-img"
               />
             </div>
@@ -90,13 +90,18 @@ const displayFoods = (foods) => {
                 </h2>
               </div>
 
-              <button onclick="addToCart(this)" class="btn btn-warning ">
+              <button id="add-btn-${food.id}" onclick="addToCart(this)" class="btn btn-warning ">
                 <i class="fa-solid fa-square-plus"></i>
                 Add This Item
               </button>
             </div>
           </div>`;
     foodContainer.append(foodCard);
+    document
+      .getElementById(`add-btn-${food.id}`)
+      .addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
   });
 
   // 2 - food container k show korbo + loading k hide korbo
@@ -146,6 +151,7 @@ const addToCart = (btn) => {
   // console.log(foodTitle, foodImg, foodPriceNum);
 
   const selectedItem = {
+    id: cart.length + 1,
     foodTitle: foodTitle,
     foodImg: foodImg,
     foodPrice: foodPriceNum,
@@ -168,6 +174,7 @@ const displayCart = (cart) => {
     newItem.innerHTML = `
           <div class="p-1 bg-white flex gap-3 shadow  rounded-xl relative">
             <div class="img">
+            <span class="hidden cart-id">${item.id}</span>
               <img
                 src="${item.foodImg}"
                 alt=""
@@ -197,13 +204,15 @@ const displayCart = (cart) => {
 
 const removeCart = (btn) => {
   const item = btn.parentNode;
-  const foodTitle = item.querySelector(".food-title").innerText;
-  const foodPrice = Number(item.querySelector(".item-Price").innerText);
-  console.log(foodPrice);
 
-  cart = cart.filter((item) => item.foodTitle != foodTitle);
+  const id = Number(item.querySelector(".cart-id").innerText);
+  const foodPrice = Number(item.querySelector(".item-Price").innerText);
+
+  cart = cart.filter((item) => item.id != id);
+
   total = 0;
   cart.forEach((item) => (total += item.foodPrice));
+
   displayCart(cart);
   displayTotal(total);
 };
