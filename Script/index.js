@@ -150,14 +150,27 @@ const addToCart = (btn) => {
   const foodPriceNum = Number(foodPrice);
   // console.log(foodTitle, foodImg, foodPriceNum);
 
-  const selectedItem = {
-    id: cart.length + 1,
-    foodTitle: foodTitle,
-    foodImg: foodImg,
-    foodPrice: foodPriceNum,
-  };
-  cart.push(selectedItem);
+  const isExist = cart.find((item) => item.foodTitle == foodTitle);
+  if (isExist) {
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].foodTitle == foodTitle) {
+        cart[i].quantity++;
+        break;
+      }
+    }
+  } else {
+    const selectedItem = {
+      id: cart.length + 1,
+      quantity: 0,
+      foodTitle: foodTitle,
+      foodImg: foodImg,
+      foodPrice: foodPriceNum,
+    };
+    cart.push(selectedItem);
+  }
+  console.log(cart);
   total = total + foodPriceNum;
+
   displayCart(cart);
   displayTotal(total);
 };
